@@ -1,0 +1,64 @@
+
+ <!DOCTYPE HTML>
+ <html>
+ <head>
+ <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+ <script type="text/javascript" src="https://canvasjs.com/canvasjs.min.js"></script>
+ <script type="text/javascript" src="https://cdn.canvasjs.com/canvasjs.stock.min.js"></script>
+ <script type="text/javascript">
+ window.onload = function () {
+   var dps1 = [];
+   var stockChart = new CanvasJS.StockChart("chartContainer",{
+     theme: "light2",
+     exportEnabled: true,
+     title:{
+       text:"StockChart with Date-Time Axis"
+     },
+     subtitles: [{
+       text: "{{stockname}}"
+     }],
+     charts: [{
+       axisX: {
+         crosshair: {
+           enabled: true,
+           snapToDataPoint: true
+         }
+       },
+       axisY: {
+         prefix: "INR"
+       },
+       data: [{
+         type: "candlestick",
+         yValueFormatString: "$#,###.##",
+         dataPoints : dps1
+       }]
+     }],
+     navigator: {
+       data: [{
+         dataPoints: dps1
+       }],
+       slider: {
+         minimum: new Date(2018, 4, 1),
+         maximum: new Date(2018, 6, 1)
+       }
+     }
+   });
+ 
+   // Convert Python dictionary to JavaScript array
+   var time_series_data = JSON.parse('{{ time_series_data|tojson|safe }}');
+   var dataPoints = Object.entries(time_series_data).map(([date, values]) => ({
+     x: new Date(date),
+     y: [Number(values['1. open']), Number(values['2. high']), Number(values['3. low']), Number(values['4. close'])]
+   }));
+ 
+   dps1.push(...dataPoints);
+ 
+   stockChart.render();
+ }
+ </script>
+ </head>
+ <body>
+ <div id="chartContainer" style="height: 600px; width: 100%;"></div>
+ </body>
+ </html>
+ 

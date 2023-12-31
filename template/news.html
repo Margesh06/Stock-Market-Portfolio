@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Page</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1.con {
+        text-align: center;
+        padding: 20px;
+        background-color: #333;
+        color: white;
+    }
+
+    ul.con {
+        list-style: none;
+        padding: 0;
+    }
+
+    li.con {
+        background-color: white;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2.con {
+        margin-top: 0;
+    }
+
+    p.con {
+        margin: 10px 0;
+    }
+
+    a.con {
+        text-decoration: none;
+        color: #007bff;
+    }
+</style>
+<body>
+    
+    
+    <h1 class="con">Market News</h1>
+    
+    <ul class="con">
+        {% for article in top_headlines['articles'] %}
+            <li class="con">
+                <h2 class="con">{{ article.title }}</h2>
+                <p class="con">{{ article.description }}</p>
+                <p class="con">Source: {{ article.source.name }}</p>
+                <a href="{{ article.url }}" target="_blank">Read more</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
